@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1f5f66" />
+  <meta name="description" content="Track blood pressure, body temperature and daily medicine reminders in one private, browser-based health dashboard." />
+  <title>MediCare+ | Patient Health Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">+</span>
+      <div>
+        <strong>MediCare+</strong>
+        <small>Patient health dashboard</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#overview">Overview</a>
+      <a href="#vitals">Log vitals</a>
+      <a href="#medicines">Medicines</a>
+      <a href="#history">History</a>
+    </nav>
+    <div class="top-actions">
+      <button id="patientBtn" class="chip" title="Edit patient name">Patient</button>
+      <button id="notifBtn" class="chip">Enable reminders</button>
+    </div>
+  </header>
+
+  <div class="privacy">Records stay in this browser on this device. Nothing is uploaded.</div>
+
+  <main>
+    <!-- Overview -->
+    <section id="overview">
+      <p class="eyebrow" id="patientLine">Patient record</p>
+      <h2>Today at a glance</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Next dose</h3>
+          <p class="big" id="nextDose">—</p>
+          <p class="sub" id="nextDoseSub"></p>
+        </article>
+        <article class="card">
+          <h3>Doses taken today</h3>
+          <p class="big" id="dosesTaken">0 / 0</p>
+          <div class="bar"><div id="dosesBar"></div></div>
+        </article>
+        <article class="card">
+          <h3>Latest blood pressure</h3>
+          <p class="big" id="latestBP">—</p>
+          <p class="sub" id="latestBPSub">No readings yet</p>
+        </article>
+        <article class="card">
+          <h3>Latest temperature</h3>
+          <p class="big" id="latestTemp">—</p>
+          <p class="sub" id="latestTempSub">No readings yet</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Vitals -->
+    <section id="vitals">
+      <p class="eyebrow">Health monitoring</p>
+      <h2>Log vitals</h2>
+      <p class="lead">Manual readings from your own devices, saved with the time they were measured.</p>
+
+      <div class="two">
+        <form id="bpForm" class="panel">
+          <h3>Blood pressure</h3>
+          <p class="hint">Enter the numbers shown on your BP monitor.</p>
+          <div class="row">
+            <label>Systolic (top number)
+              <input id="sys" type="number" min="50" max="260" required />
+            </label>
+            <span class="slash">/</span>
+            <label>Diastolic (bottom number)
+              <input id="dia" type="number" min="30" max="160" required />
+            </label>
+          </div>
+          <label>Measured at
+            <input id="bpTime" type="datetime-local" required />
+          </label>
+          <p class="hint">Unit: mmHg. <span id="bpCategory" class="badge">Category appears as you type</span></p>
+          <button class="primary" type="submit">Save BP reading</button>
+        </form>
+
+        <form id="tempForm" class="panel">
+          <h3>Body temperature</h3>
+          <p class="hint">Enter the reading from your thermometer.</p>
+          <div class="seg">
+            <button type="button" id="unitC" class="active">°C</button>
+            <button type="button" id="unitF">°F</button>
+          </div>
+          <label>Temperature <span id="tempRange" class="hint">25–45 °C</span>
+            <input id="temp" type="number" step="0.1" required />
+          </label>
+          <label>Measured at
+            <input id="tempTime" type="datetime-local" required />
+          </label>
+          <p class="hint">Readings are stored in °C and shown in your chosen unit. <span id="tempCategory" class="badge">Category appears as you type</span></p>
+          <button class="primary" type="submit">Save temperature</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Medicines -->
+    <section id="medicines">
+      <p class="eyebrow">Daily routine</p>
+      <h2>Medicine reminders</h2>
+      <p class="lead">Alerts appear in the app, and as browser notifications when enabled.</p>
+
+      <div class="two">
+        <div class="panel">
+          <h3>Today's schedule</h3>
+          <p class="hint">Resets every day at midnight</p>
+          <ul id="medList" class="medlist"></ul>
+        </div>
+
+        <form id="medForm" class="panel">
+          <h3>Add a medicine</h3>
+          <p class="hint">Creates a daily reminder.</p>
+          <label>Medicine name
+            <input id="medName" type="text" required placeholder="e.g. Metformin" />
+          </label>
+          <label>Dose
+            <input id="medDose" type="text" placeholder="e.g. 500 mg" />
+          </label>
+          <label>Reminder time
+            <input id="medTime" type="time" value="08:00" required />
+          </label>
+          <div class="slots">
+            <button type="button" data-time="08:00">Morning</button>
+            <button type="button" data-time="13:00">Midday</button>
+            <button type="button" data-time="18:00">Evening</button>
+            <button type="button" data-time="22:00">Bedtime</button>
+          </div>
+          <button class="primary" type="submit">Add to schedule</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section id="history">
+      <p class="eyebrow">Recent records</p>
+      <h2>Vitals history</h2>
+      <p class="lead">Every reading saved in this browser, with trends over time.</p>
+
+      <div class="toolbar">
+        <div class="seg" id="rangeSeg">
+          <button data-range="7" class="active">Last 7 days</button>
+          <button data-range="30">Last 30 days</button>
+          <button data-range="all">All time</button>
+        </div>
+        <div class="seg" id="typeSeg">
+          <button data-type="bp" class="active">Blood pressure</button>
+          <button data-type="temp">Temperature</button>
+        </div>
+        <div class="spacer"></div>
+        <button id="exportBtn" class="chip">Export CSV</button>
+        <button id="clearBtn" class="chip danger">Clear history</button>
+      </div>
+
+      <div class="panel">
+        <canvas id="chart" height="260"></canvas>
+        <p id="chartEmpty" class="hint center">No readings in this range yet.</p>
+      </div>
+
+      <div class="panel tablewrap">
+        <table>
+          <thead id="histHead"></thead>
+          <tbody id="histBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <strong>MediCare+</strong>
+    <p>Readings are entered manually and saved only in this browser on this device. Categories use general adult reference ranges. MediCare+ does not diagnose conditions or replace professional medical advice — if a reading concerns you, contact a qualified healthcare professional.</p>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

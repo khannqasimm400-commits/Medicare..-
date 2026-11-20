@@ -1,2 +1,2 @@
 # Medicare..-
-..
+..Welcome to [Medicare], an innovative digital health platform dedicated to enhancing the well-being and independence of senior citizens. We understand that managing daily health routines can be challenging for older adults and their families. That is why we have designed a user-friendly, all-in-one solution that ensures timely medication adherence while keeping a close eye on vital health metrics.
